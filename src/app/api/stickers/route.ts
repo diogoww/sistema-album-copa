@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
+import type { UserSticker } from "@prisma/client";
 import { stickerQuerySchema } from "@/lib/validators";
 import { auth } from "@/lib/auth";
 
@@ -39,7 +40,9 @@ export async function GET(req: Request) {
     select: { stickerId: true, owned: true, duplicates: true }
   });
 
-  const map = new Map(collection.map((item) => [item.stickerId, item]));
+  const map = new Map<string, Pick<UserSticker, "stickerId" | "owned" | "duplicates">>(
+    collection.map((item) => [item.stickerId, item])
+  );
 
   const filtered = stickers.filter((sticker) => {
     const item = map.get(sticker.id);
