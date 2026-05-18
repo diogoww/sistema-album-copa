@@ -13,38 +13,28 @@ export type ParsedSticker = {
   metadata?: Prisma.InputJsonValue;
 };
 
-const codeRegex = /\b([A-Z]{1,3}\d{1,4})\b/;
+const codeRegex = /([A-Z]{2,3})(\d{1,2})/g;
 
 export async function parseStickerPdf(filePath: string) {
   const buffer = fs.readFileSync(filePath);
   const data = await pdf(buffer);
-  const lines = data.text
-    .split(/\r?\n/)
-    .map((line) => line.replace(/\s+/g, " ").trim())
-    .filter(Boolean);
 
   const results: ParsedSticker[] = [];
+  const seen = new Set<string>();
 
-  for (const line of lines) {
-    const codeMatch = line.match(codeRegex);
-    if (!codeMatch) continue;
+  for (const match of data.text.matchAll(codeRegex)) {
+    const team = match[1];
+    const num = parseInt(match[2], 10);
+    const code = `${team}${num}`;
 
-    const code = codeMatch[1];
-    const rest = line.replace(code, "").trim();
-
-    const parts = rest.split(" - ");
-    const name = parts[0]?.trim() ?? code;
-    const category = parts[1]?.trim() ?? "Geral";
-    const team = parts[2]?.trim() ?? "Selecao";
-    const pageMatch = line.match(/pag\.?\s*(\d+)/i);
-    const page = pageMatch ? Number(pageMatch[1]) : undefined;
+    if (seen.has(code)) continue;
+    seen.add(code);
 
     results.push({
       code,
-      name,
-      category,
+      name: `${team} ${num}`,
+      category: team === "FWC" ? "Copa" : "Selecao",
       team,
-      page,
       metadata: { source: "pdf" } as Prisma.InputJsonValue
     });
   }
