@@ -9,7 +9,7 @@ const links = [
   { href: "/profile", label: "Perfil" },
   { href: "/settings", label: "Configuracoes" },
   { href: "/admin", label: "Administracao" }
-];
+] as const;
 
 export function Sidebar() {
   return (
