@@ -1,5 +1,5 @@
-import { prisma } from "@/lib/db";
-import { parseStickerPdf } from "@/lib/importer";
+import { prisma } from "../src/lib/db";
+import { parseStickerPdf } from "../src/lib/importer";
 import { Prisma } from "@prisma/client";
 
 async function main() {
