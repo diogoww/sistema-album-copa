@@ -1,0 +1,29 @@
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+
+export default function LoginPage() {
+  return (
+    <main className="flex min-h-screen items-center justify-center px-6 py-12">
+      <Card className="w-full max-w-md">
+        <CardContent className="space-y-6">
+          <div>
+            <h1 className="text-2xl font-semibold">Entrar</h1>
+            <p className="text-sm text-brand-ink/60">
+              Acesse sua colecao de forma segura.
+            </p>
+          </div>
+          <form className="space-y-4">
+            <Input type="email" placeholder="Email" />
+            <Input type="password" placeholder="Senha" />
+            <Button className="w-full">Entrar</Button>
+          </form>
+          <p className="text-sm text-brand-ink/60">
+            Nao tem conta? <Link href="/register">Criar agora</Link>
+          </p>
+        </CardContent>
+      </Card>
+    </main>
+  );
+}
