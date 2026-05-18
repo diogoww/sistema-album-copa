@@ -1,5 +1,6 @@
 import { parseStickerPdf } from "@/lib/importer";
 import { prisma } from "@/lib/db";
+import { Prisma } from "@prisma/client";
 
 async function main() {
   const sourceFile = process.env.PDF_IMPORT_SOURCE ?? "./tabelaControleFigurinhas.pdf";
@@ -15,7 +16,7 @@ async function main() {
         page: row.page,
         rarity: row.rarity,
         imageUrl: row.imageUrl,
-        metadata: row.metadata ?? null
+        metadata: row.metadata ?? Prisma.JsonNull
       },
       create: {
         code: row.code,
@@ -25,7 +26,7 @@ async function main() {
         page: row.page,
         rarity: row.rarity,
         imageUrl: row.imageUrl,
-        metadata: row.metadata ?? null
+        metadata: row.metadata ?? Prisma.JsonNull
       }
     });
   }
