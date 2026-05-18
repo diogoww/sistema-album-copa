@@ -15,7 +15,7 @@ async function main() {
         page: row.page,
         rarity: row.rarity,
         imageUrl: row.imageUrl,
-        metadata: row.metadata
+        metadata: row.metadata ?? null
       },
       create: {
         code: row.code,
@@ -25,7 +25,7 @@ async function main() {
         page: row.page,
         rarity: row.rarity,
         imageUrl: row.imageUrl,
-        metadata: row.metadata
+        metadata: row.metadata ?? null
       }
     });
   }

@@ -1,5 +1,6 @@
 import fs from "fs";
 import pdf from "pdf-parse";
+import type { Prisma } from "@prisma/client";
 
 export type ParsedSticker = {
   code: string;
@@ -9,7 +10,7 @@ export type ParsedSticker = {
   page?: number;
   rarity?: string;
   imageUrl?: string;
-  metadata?: Record<string, unknown>;
+  metadata?: Prisma.InputJsonValue;
 };
 
 const codeRegex = /\b([A-Z]{1,3}\d{1,4})\b/;
@@ -44,7 +45,7 @@ export async function parseStickerPdf(filePath: string) {
       category,
       team,
       page,
-      metadata: { source: "pdf" }
+      metadata: { source: "pdf" } as Prisma.InputJsonValue
     });
   }
 
