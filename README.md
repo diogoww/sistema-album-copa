@@ -48,6 +48,10 @@ npm run prisma:seed
 npm run dev
 ```
 
+## Guia detalhado
+
+Veja o passo a passo completo em [SETUP.md](SETUP.md).
+
 ## Importacao do PDF
 
 Por padrao, o sistema usa `tabelaControleFigurinhas.pdf` na raiz.
