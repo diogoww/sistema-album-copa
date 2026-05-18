@@ -1,7 +1,7 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import { compare } from "argon2";
+import { verify } from "argon2";
 import { prisma } from "@/lib/db";
 import { loginSchema } from "@/lib/validators";
 
@@ -24,7 +24,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         });
         if (!user) return null;
 
-        const ok = await compare(parsed.data.password, user.passwordHash);
+        const ok = await verify(user.passwordHash, parsed.data.password);
         if (!ok) return null;
 
         return {
